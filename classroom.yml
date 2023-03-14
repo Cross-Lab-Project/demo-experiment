@@ -1,0 +1,148 @@
+id: 0J4BJqPz4A3eoEEDebHTf
+createdBy: test@web.de
+dateCreated: 1678802217906
+name: Arduino Labor
+members:
+  teacher:
+    - teacher@email.de
+  student: []
+modules:
+  - url: https://cross-lab-project.github.io/edrys_module-markdown-it/index.html
+    showInCustom: lobby
+    width: full
+    height: tall
+    teacherConfig: >-
+      # Arduino-Labor (Lehrer)
+
+      Es wird empfohlen mehrere Räume zum selbständigen training der Schüler zu
+      nutzen (je 3 Schüler in einem Raum)
+
+      * Räume dienen der Vorbereitung und enthalten einen Gruppen-Chat sowie ein
+      kollaboratives Tutorial auf LiaScript-basis. 
+
+      * Stationen müssen vom Lehrer geöffnet werden und ermöglichen den direkten
+      Zugriff auf einen Arduino  
+    config: >-
+      # Ardunio-Labor (Studenten)
+
+
+      Hallo liebe Arduino-Freunde gleich ist es soweit und ihr werdet in
+
+      verschiedenen Räumen platziert.
+
+
+      Zunächst sollt ihr euch gemeinsam durch ein Tutorial arbeiten, bevor ihr
+      die
+
+      Aufgaben dann auf einer richtigen Arduino-Plattform lösen könnt.
+
+
+      Die Wartezeit könnt ihr euch mit einer kleinen Einführung vertreiben:
+
+
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/L6hfG-v7GL4"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+  - url: https://edrys-org.github.io/module-video-chat/
+    showInCustom: room*
+    width: full
+    height: tall
+  - url: https://edrys-org.github.io/module-liascript/
+    config:
+      course: https://raw.githubusercontent.com/liaTemplates/AVR8js/main/README.md#4
+    showInCustom: room*
+    width: full
+    height: tall
+  - url: https://cross-lab-project.github.io/edrys_module-markdown-it/index.html
+    config: |-
+      # Aufgabenstellung
+
+      Es soll ein ...
+    teacherConfig: |-
+      # Lösung (Nur für Lehrer sichtbar)
+
+      ``` cpp
+      void setup() {
+        pinMode(LED_BUILTIN, OUTPUT);
+        Serial.begin(9600);
+        Serial.println("Hello World");
+      }
+          
+      static uint8_t count=0;
+          
+      void blink(uint8_t on){
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(on * 100);
+        d igitalWrite(LED_BUILTIN, LOW);
+       delay(300);
+      }
+          
+      void loop() {
+        Serial.print("count:");
+        Serial.println(count++);
+            
+        blink(3);
+        blink(1);
+        blink(3);
+            
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);
+      }
+      ```
+    showInCustom: station
+    width: full
+    height: tall
+  - url: https://cross-lab-project.github.io/edrys_module-editor/index.html
+    showInCustom: station
+    width: full
+    height: tall
+    config:
+      file:
+        Hello.ino: |
+          void setup() {
+             pinMode(LED_BUILTIN, OUTPUT);
+             Serial.begin(9600);
+             Serial.println("Hello World");
+          }
+                
+          void loop() {
+            Serial.print("count:");
+            Serial.println(count++);
+            // TODO: Implementieren sie eine Blink Funktion
+            delay(1000);
+          }
+      runCommand: execute
+      language: cpp
+      theme: light
+  - url: https://cross-lab-project.github.io/edrys_module-pyxtermjs/index.html
+    showInCustom: station
+    width: full
+    height: tall
+    stationConfig:
+      server: http://localhost:5000/pty
+      execute: execute
+      script: |
+        arduino-cli sketch new Hello
+        olddir=$(pwd)
+              
+        mv Hello.ino Hello
+        cd Hello
+              
+        arduino-cli board attach -p /dev/ttyACM0
+        arduino-cli compile
+        arduino-cli upload
+        arduino-cli monitor -p /dev/ttyACM0
+        cd $olddir
+      enable:
+        teacher: true
+        student: true
+  - url: https://edrys-org.github.io/module-video-chat/
+    showInCustom: station
+    width: full
+    height: tall
